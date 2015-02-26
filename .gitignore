@@ -15,5 +15,5 @@
 /log/*
 !/log/.keep
 /tmp
-/assets/videos/*
+/app/assets/videos/*
 .DS_Store

@@ -4,6 +4,9 @@ gem 'rails', '4.2.0'
 gem 'sqlite3'
 gem 'coffee-rails', '~> 4.1.0'
 
+gem 'bootstrap-sass', '~> 3.2.0.2'
+gem 'jquery-ui-rails', '~> 5.0.3'
+gem "mediaelement_rails"
 gem 'jquery-rails'
 gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
