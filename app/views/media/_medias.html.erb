@@ -2,7 +2,7 @@
   <% medias.each do |media| %>
     <div class="col-sm-6 col-md-4">
       <div class='embed-responsive embed-responsive-4by3'>
-        <%= video_tag media_path(dir, media), :controls => true, title: media, class: 'embed-responsive-item' %>
+        <%= button_to media, { action: 'watch' }, params: { media: "#{params[:path]}/#{dir}/#{media}" }, class: 'btn btn-primary' %>
       </div>
     </div>
   <% end %>

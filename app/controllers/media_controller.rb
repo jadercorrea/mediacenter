@@ -1,6 +1,11 @@
 class MediaController < ApplicationController
   include FileMapping
-  before_action :load_resources
+  before_action :load_resources, only: [:index]
+
+  def watch
+    call_rake :watch_video, media: params[:media]
+    redirect_to :back, path: params[:path], notice: "Playing video: #{params[:media]}"
+  end
 
   def index
   end
@@ -10,15 +15,15 @@ class MediaController < ApplicationController
   def load_resources
     @directories = directory_mapping
     @directories.each do |dir|
-      instance_eval("@#{sanitize(dir)} = files(params[:path], '#{dir}/')")
+      instance_eval("@#{sanitize(dir)} = files(params[:videos_path], '#{dir}/')")
     end
     @directories.push('root')
     @root = files(params[:path])
   end
 
   def directory_mapping
-    params[:path] = "app/assets/videos" unless params[:path].present?
-    DirectoryMapping::directories(params[:path])
+    params[:videos_path] = "app/assets/videos" unless params[:videos_path].present?
+    DirectoryMapping::directories(params[:videos_path])
   end
 
   def sanitize(dir)
