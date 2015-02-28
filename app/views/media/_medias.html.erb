@@ -1,9 +1,7 @@
-<div class='row'>
+<div class='list-group'>
   <% medias.each do |media| %>
-    <div class="col-sm-6 col-md-4">
-      <div class='embed-responsive embed-responsive-4by3'>
-        <%= button_to media, { action: 'watch' }, params: { media: "#{params[:path]}/#{dir}/#{media}" }, class: 'btn btn-primary' %>
-      </div>
+    <div class="col-sm-6">
+      <%= link_to media, watch_path(media: "#{params[:videos_path]}/#{dir}/#{media}"), method: :post, class: 'list-group-item' %>
     </div>
   <% end %>
 </div>

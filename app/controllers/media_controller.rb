@@ -1,5 +1,6 @@
 class MediaController < ApplicationController
   include FileMapping
+  include ApplicationHelper
   before_action :load_resources, only: [:index]
 
   def watch
@@ -17,20 +18,11 @@ class MediaController < ApplicationController
     @directories.each do |dir|
       instance_eval("@#{sanitize(dir)} = files(params[:videos_path], '#{dir}/')")
     end
-    @directories.push('root')
-    @root = files(params[:path])
+    @directories.push(params[:videos_path])
+    instance_eval("@#{sanitize(params[:videos_path])} = files(params[:videos_path])")
   end
 
   def directory_mapping
-    params[:videos_path] = "app/assets/videos" unless params[:videos_path].present?
     DirectoryMapping::directories(params[:videos_path])
-  end
-
-  def sanitize(dir)
-    special_char_mapping = [' ', '-', '(', ')']
-    special_char_mapping.each do |char|
-      dir = dir.gsub(char, '_')
-    end
-    dir.downcase
   end
 end
