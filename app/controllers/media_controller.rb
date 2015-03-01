@@ -1,11 +1,10 @@
 class MediaController < ApplicationController
-  include FileMapping
   include ApplicationHelper
   before_action :load_resources, only: [:index]
 
   def watch
     call_rake :watch_video, media: params[:media]
-    redirect_to :back, path: params[:path], notice: "Playing video: #{params[:media]}"
+    redirect_to :back, videos_path: params[:videos_path], notice: "Playing video: #{params[:media]}"
   end
 
   def index
@@ -14,15 +13,19 @@ class MediaController < ApplicationController
   private
 
   def load_resources
-    @directories = directory_mapping
-    @directories.each do |dir|
-      instance_eval("@#{sanitize(dir)} = files(params[:videos_path], '#{dir}/')")
-    end
-    @directories.push(params[:videos_path])
-    instance_eval("@#{sanitize(params[:videos_path])} = files(params[:videos_path])")
+    @directories = directories(params[:videos_path])
+    to_instances
   end
 
-  def directory_mapping
-    DirectoryMapping::directories(params[:videos_path])
+  def to_instances
+    @directories.each do |dir|
+      evaluate(dir)
+    end
+    @directories.push(params[:videos_path])
+    evaluate(params[:videos_path])
+  end
+
+  def evaluate(dir)
+    instance_eval("@#{sanitize(dir)} = files(params[:videos_path], '#{dir}/')")
   end
 end
