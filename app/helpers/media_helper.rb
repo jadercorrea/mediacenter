@@ -6,10 +6,20 @@ module MediaHelper
     unless instance.empty?
       @collection = instance
     end
+    instance.any?
   end
 
-  def media_path(dir, media)
-    return media if dir == 'root'
-    "#{dir}/#{media}"
+  def has_directories?(directory, subdirectory)
+    @directories = directories(directory, subdirectory)
+    @directories.any?
+  end
+
+  def target_link(target, path, method)
+    link_to target, path, method: method, class: 'list-group-item'
+  end
+
+  def path_to_target(dir, target)
+    return "#{dir}/#{target}" if dir == params[:videos_path]
+    "#{params[:videos_path]}/#{dir}/#{target}"
   end
 end

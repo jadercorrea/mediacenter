@@ -1,7 +1,11 @@
 <div class='list-group'>
-  <% medias.each do |media| %>
+  <% targets.each do |target| %>
     <div class="col-sm-6">
-      <%= link_to media, watch_path(media: "#{params[:videos_path]}/#{dir}/#{media}"), method: :post, class: 'list-group-item' %>
+      <% if videos %>
+        <%= target_link target, watch_path(media: path_to_target(dir, target)), :post %>
+      <% else %>
+        <%= target_link target, media_path(videos_path: path_to_target(dir, target)), :get %>
+      <% end %>
     </div>
   <% end %>
 </div>

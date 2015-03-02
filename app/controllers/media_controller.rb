@@ -26,6 +26,11 @@ class MediaController < ApplicationController
   end
 
   def evaluate(dir)
-    instance_eval("@#{sanitize(dir)} = files(params[:videos_path], '#{dir}/')")
+    instance_eval("@#{sanitize(dir)} = #{matcher(dir)}")
+  end
+
+  def matcher(dir)
+    return files(dir) if dir == params[:videos_path]
+    files(params[:videos_path], dir)
   end
 end

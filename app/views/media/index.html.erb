@@ -4,13 +4,15 @@
 </div>
 <div id='accordion', class='ui-accordion ui-widget ui-helper-reset'>
   <% @directories.each do |dir| %>
-    <% if has_collection?(dir) %>
-      <div class='ui-accordion-header'>
-        <%= content_tag(:h3, dir) %>
-      </div>
-      <div class='ui-accordion-content'>
-        <%= render partial: 'medias', locals: { medias: @collection, dir: dir } %>
-      </div>
-    <% end %>
+    <div class='ui-accordion-header'>
+      <%= content_tag(:h3, dir) %>
+    </div>
+    <div class='ui-accordion-content'>
+      <% if has_collection?(dir) %>
+        <%= render partial: 'medias', locals: { targets: @collection, dir: dir, videos: true } %>
+      <% elsif has_directories?(params[:videos_path], dir) %>
+        <%= render partial: 'medias', locals: { targets: @directories, dir: dir, videos: false } %>
+      <% end %>
+    </div>
   <% end %>
 </div>
